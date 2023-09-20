@@ -7,23 +7,28 @@ import  Loader  from './components/Loader.js'
 import Home from './pages/home.js'
 import Login from './pages/login.js';
 import Navbar from './components/Navbar.js';
+import { useAuth } from './hooks/index.js';
+
+
+
 function App() {
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts(1, 5)
-      console.log(response.data.posts)
-      if (response.success) {
-        setPosts(response.data.posts)
-      }
+  const auth = useAuth()
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     const response = await getPosts(1, 5)
+  //     console.log(response.data.posts)
+  //     if (response.success) {
+  //       setPosts(response.data.posts)
+  //     }
 
-      setIsLoading(false)
-    }
-    fetchPosts()
-  }, [])
+  //     setIsLoading(false)
+  //   }
+  //   fetchPosts()
+  // }, [])
 
-  if(isLoading){
+  if(auth.loading){
     return <Loader />
   }
   return (

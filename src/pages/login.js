@@ -1,16 +1,27 @@
 
 import '../styles/login.css'
 import { useState } from 'react';
-
+import { useAuth } from '../hooks/index.js';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLogging , setLogging] = useState(false)
+    const auth = useAuth()
+    console.log(auth)
+
     async function handleSubmit (e){
     e.preventDefault()
+    console.log("values",email , password)
     setLogging(true)
- 
+    const response =  auth.login(email, password)
+    if(response.success){
+        console.log("success")
+
+    }else{
+      console.log("failed")
+    }
+    setLogging(false)
   
 }
   return (  

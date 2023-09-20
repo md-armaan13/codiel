@@ -1,12 +1,13 @@
 import {LOCALSTORAGE_TOKEN_KEY,API_URLS} from '../utils/index.js';
+import { getFormBody } from '../utils/index.js';
 
+//doc url - https://www.notion.so/aakashcn/Codeial-API-docs-3a4d0b5a42c54f0a94d951a42aabc13f
 const customFetch = async (url, { body , ...customConfig}) => {
 
     const token = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 
     const headers = {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
     };
 
     // FOR ADDING AUTHORIZATION HEADER
@@ -25,7 +26,7 @@ const customFetch = async (url, { body , ...customConfig}) => {
     };
 
     if(body){
-        config.body = JSON.stringify(body);
+        config.body = getFormBody(body);
     }
 
     try{
@@ -58,4 +59,26 @@ export const getPosts = (page, limit) => {
         method : 'GET',
     });
 
+}
+
+export const login = (email, password) => {
+    return customFetch(API_URLS.login(),{
+        body : {
+            email,
+            password,
+        },
+        method : 'POST',
+    });
+}
+
+export const signup = (name, email, password, confirmPassword) => {
+    return customFetch(API_URLS.signup(),{
+        body : {
+            name,
+            email,
+            password,
+            confirm_password : confirmPassword,
+        },
+        method : 'POST',
+    });
 }
