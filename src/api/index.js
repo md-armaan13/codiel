@@ -82,3 +82,40 @@ export const signup = (name, email, password, confirmPassword) => {
         method : 'POST',
     });
 }
+
+export const editUser = (userId ,name, password, confirmPassword) => {
+    return customFetch(API_URLS.editUser(userId),{
+        method : 'POST',
+        body : {
+            id : userId,
+            name,
+            password,
+            confirm_password : confirmPassword,
+        }
+        
+    });
+}
+    
+export const fetchUserprofile = (userId) => {
+    return customFetch(API_URLS.userInfo(userId),{
+        method : 'GET',
+    });
+}
+
+export const fetchUserFriends = () => {
+    return customFetch(API_URLS.friends(),{
+        method : 'GET',
+    });
+}
+
+export const addFriend = (userId) => {
+    return customFetch(API_URLS.createFriendship(userId),{
+        method : 'POST',
+    });
+}
+
+export const removeFriend = (userId) => {
+    return customFetch(API_URLS.removeFriend(userId),{
+        method : 'POST',
+    });
+}

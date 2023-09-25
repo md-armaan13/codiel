@@ -1,19 +1,27 @@
-import { useEffect, useState } from 'react'
-import { getPosts } from './api/index.js'
 
-import{Routes , Route} from 'react-router-dom';
+import{Routes , Route ,Navigate} from 'react-router-dom';
 
 import  Loader  from './components/Loader.js'
 import Home from './pages/home.js'
 import Login from './pages/login.js';
 import Navbar from './components/Navbar.js';
 import { useAuth } from './hooks/index.js';
+import Signup from './pages/signup.js';
+import Setting from './pages/setting.js';
+import UserProfile from './pages/userProfile.js';
+
+function PrivateRoute({children ,...rest}){
+  const auth = useAuth()
+      if(auth.user){
+        return children
+      }else{
+        return <Navigate to = '/login' replace />
+      }
+}
 
 
 
 function App() {
-  const [posts, setPosts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   const auth = useAuth()
   // useEffect(() => {
   //   const fetchPosts = async () => {
@@ -41,9 +49,12 @@ function App() {
       })} */}
     
     <Routes>
-      <Route path='/' element={<Home posts = {posts}/>}/>
+      <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
       {/* <Route path='/create-post' element={<CreatePost/>}/> */}
+      <Route path='/signup' element={<Signup/>}/>
+      <Route path='/setting' element={<PrivateRoute RouteKey="hello">{<Setting/>}</PrivateRoute>}/>
+      <Route path='/users/:userId' element={<PrivateRoute RouteKey="hello">{<UserProfile/>}</PrivateRoute>}/>
       <Route path='*' element={<h1>Not Found</h1>}/>
    </Routes>
    </div>

@@ -2,27 +2,40 @@
 import '../styles/login.css'
 import { useState } from 'react';
 import { useAuth } from '../hooks/index.js';
+import { Navigate, useNavigate  } from 'react-router-dom';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLogging , setLogging] = useState(false)
     const auth = useAuth()
-    console.log(auth)
+    const navigate = useNavigate()
+
+    
+    if(auth.user){
+      return  <Navigate to = '/' replace /> 
+    }
+    
 
     async function handleSubmit (e){
     e.preventDefault()
     console.log("values",email , password)
     setLogging(true)
-    const response =  auth.login(email, password)
+    const response =   await auth.login(email, password)
     if(response.success){
         console.log("success")
+        navigate('/')
 
     }else{
       console.log("failed")
     }
     setLogging(false)
   
+}
+
+if(auth.user){
+  console.log("user", auth.user)
+   navigate('/')
 }
   return (  
     <div className='cont' id='dddd'>

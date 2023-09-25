@@ -6,6 +6,9 @@ const initialState = { // initial state is an object with the following properti
     user: null,
     login: () => {},
     logout: () => {},
+    signup: () => {},
+    updateUser: () => {},
+    updateUserFriends: () => {},
     loading: true,
 };
 
